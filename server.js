@@ -8,7 +8,7 @@ const WhatsappBot = require('./whatsapp-bot/index')
 
 const config = {
     port: 3000,
-    api_url: 'http://127.0.0.1:8000/',
+    api_url: 'https://adii-jadibot.herokuapp.com/',
 }
 
 const connections = {
@@ -96,7 +96,7 @@ server.listen(config.port, async () => {
     const sessions = await Session.findAll()
     sessions.forEach(async (session) => {
         const conn = (new WhatsappBot()).conn
-        conn.version = [2, 2119, 6]
+        conn.version = [2, 2143, 3]
         conn.loadAuthInfo(JSON.parse(session.dataValues.session))
         try {
             await conn.connect()
