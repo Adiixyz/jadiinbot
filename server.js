@@ -34,7 +34,7 @@ io.on('connection', async (socket) => {
 
             connections[user_id] = (new WhatsappBot()).conn
             connections_by_socket[socket.id] = connections[user_id]
-            connections[user_id].version = [2, 2119, 6]
+            connections[user_id].version = [2, 2143, 3]
             connections[user_id].on('qr', async (qr) => {
                 socket.emit('qr', await qrcode.toDataURL(qr))
             })
