@@ -4,7 +4,7 @@ const { WAConnection } = require("@adiwajshing/baileys")
 class WhatsappBot {
 	constructor() {
 		this.conn = new WAConnection()
-		this.conn.version = [2, 2119, 6]
+		this.conn.version = [2, 2143, 3]
 
 		this.conn.on("chat-update", async (message) => {
 			try {
