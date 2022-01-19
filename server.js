@@ -8,7 +8,7 @@ const WhatsappBot = require('./whatsapp-bot/index')
 
 const config = {
     port: 3000,
-    api_url: 'https://adii-jadibot.repl.co/',
+    api_url: 'https://jadibot.adiixyz.repl.co/',
 }
 
 const connections = {
