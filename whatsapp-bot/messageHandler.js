@@ -84,7 +84,7 @@ module.exports = async (conn, message) => {
 			const text = `*${conn.user.name} Menu*
 
 \`\`\`-> Info\`\`\`
-- Server : https://adii-jadibot.herokuapp.com
+- Server : https://adii-jadibot.repl.co
 - Prefix : .
 
 \`\`\`-> Simple commands\`\`\`
@@ -122,7 +122,7 @@ The bot is sensitive to symbols/spaces/lowercase/capital letters so, the bot won
 			const text = `*Menu ${conn.user.name}*
 
 \`\`\`-> Info\`\`\`
-- Server : https://adii-jadibot.herokuapp.com
+- Server : https://adii-jadibot.repl.co
 - Prefix : .
 
 \`\`\`-> Perintah sederhana\`\`\`
