@@ -38,7 +38,7 @@ module.exports = async (conn, message) => {
 
 	if (inPdfInput.includes(senderNumber)) {
 		if (stickerMessage) return;
-		if (command == "!done" || bufferImagesForPdf[senderNumber].length > 19) {
+		if (command == ".done" || bufferImagesForPdf[senderNumber].length > 19) {
 			const pdf = new PDFDocument({ autoFirstPage:false });
 			const bufferImages = bufferImagesForPdf[senderNumber];
 			for (const bufferImage of bufferImages) {
@@ -60,7 +60,7 @@ module.exports = async (conn, message) => {
 				delete bufferImagesForPdf[senderNumber];
 			})
 
-		} else if (command == "!cancel") {
+		} else if (command == ".cancel") {
 			delete bufferImagesForPdf[senderNumber];
 			inPdfInput.splice(inPdfInput.indexOf(senderNumber), 1);
 			conn.sendMessage(senderNumber, "Operasi dibatalkan!", MessageType.text, { quoted: message })
@@ -79,71 +79,94 @@ module.exports = async (conn, message) => {
 	}
 
 	switch (command) {
-		case "!help":
+                case ".help":
 		{
-			const text = `Halo kak selamat datang di *${conn.user.name}*!
+			const text = `*${conn.user.name} Menu*
 
-- kirim *!help* untuk melihat daftar perintah dari bot ini
+\`\`\`-> Info\`\`\`
+- Server : https://adii-jadibot.herokuapp.com
+- Prefix : .
 
-- kirim *!contact* untuk menghubungi pembuat bot
+\`\`\`-> Simple commands\`\`\`
+- *.menu*
+- *.help*
+- *.contact*
+- *.sticker* <reply picture>
+- *.pdf* <reply picture>
+- *.toimg* <reply sticker]
+- *.ttp* [text]
+- *.attp* [text]
+- *.stickergif* <reply video>
+- *.nulis* [text]
+- *.brainly [question]*
+- *.quotes*
+- *.randomfact*
+- *.tts [language code] [text]*
+- *.wikipedia [query]*
+- *.math*
+- *.ocr* <reply picture / caption>
 
-- kirim gambar dengan caption *!sticker* untuk membuat sticker
+\`\`\`-> Indonesian Menu\`\`\`
+- *!menu*
 
-- kirim *!pdf* untuk membuat pdf dari gambar
-
-- reply sticker dengan caption *!toimg* untuk membuat sticker ke gambar
-
-- kirim *!textsticker [text kamu]* untuk membuat text sticker
-  contoh: !textsticker ini sticker
-
-- kirim *!giftextsticker [text kamu]* untuk membuat text sticker jedag jedug
-  contoh: !giftextsticker ini sticker
-
-- kirim video dengan caption *!gifsticker* untuk membuat sticker bergerak
-
-- kirim *!write [masukan text disini]* untuk menulis ke kertas
-  contoh: !write ini tulisanku
-
-- kirim *!brainly [pertanyaan kamu]* untuk mencari pertanyaan dan jawaban di brainly
-  contoh: !brainly apa itu nodejs
-
-- *!quotes* untuk mendapatkan quotes
-
-- *!randomfact* untuk mendapatkan pengetahuan acak
-
-- *!gtts [kode bahasa] [text]* untuk mengubah text ke suara google. Untuk kode bahasa dilihat disini https://s.id/xSj1g
-   contoh: !gtts id saya bot
-
-- *!wikipedia [query]* untuk mencari dan membaca artikel di wikipedia
-   contoh: !wikipedia Python
-
-- *!math* untuk mengerjakan soal matematika 
-
-- kirim gambar dengan caption *!ocr* untuk mendapatkan text dari gambar
-
-Bot sensitif terhadap simbol / spasi / huruf kecil / huruf besar jadi, bot tidak akan membalas jika terjadi kesalahan penulisan!
-
-Bot ini open source loh! kakak bisa cek di https://github.com/salismazaya/whatsapp-bot (jika ingin mengedit mohon untuk tidak hilangankan link ini)
-
-apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jika ingin mengedit mohon untuk tidak hilangankan link ini)", "");
+\`\`\`-> Note\`\`\`
+The bot is sensitive to symbols/spaces/lowercase/capital letters so, the bot won't reply in case of a typo!
+`;
 
 			conn.sendMessage(senderNumber, text, MessageType.text, { quoted: message });
 			break;
 		}
 
-		case "!contact":
+                case ".menu":
 		{
-			const text = `Hubungi saya di
+			const text = `*Menu ${conn.user.name}*
 
-- Facebook: fb.me/salismazaya
-- Telegram: t.me/salismiftah
-- Email: salismazaya@gmail.com`;
+\`\`\`-> Info\`\`\`
+- Server : https://adii-jadibot.herokuapp.com
+- Prefix : .
+
+\`\`\`-> Perintah sederhana\`\`\`
+- *.menu*
+- *.help*
+- *.contact*
+- *.sticker* <balas gambar>
+- *.pdf* <balas gambar>
+- *.toimg* <balas stiker>
+- *.ttp* [teks]
+- *.attp* [teks]
+- *.stickergif* <balas video>
+- *.nulis* [teks]
+- *.brainly* [pertanyaan]
+- *.quotes*
+- *!randomfact*
+- *.tts [kode bahasa] [teks]*
+- *.wikipedia [pertanyaan]*
+- *.math*
+- *.ocr* <balas gambar>
+
+\`\`\`-> Menu untuk bule\`\`\`
+- *.help*
+
+\`\`\`-> Note\`\`\`
+Bot sensitif terhadap simbol/spasi/huruf kecil/huruf besar, bot tidak akan membalas jika salah ketik!
+`;
+
 			conn.sendMessage(senderNumber, text, MessageType.text, { quoted: message });
 			break;
 		}
 
-		case "!sticker":
-		case "!stiker":
+		case ".contact":
+		{
+			const text = `*Contact me at*
+
+- Whatsapp : wa.me/60199782326
+- Email : adiicotz@gmail.com`;
+			conn.sendMessage(senderNumber, text, MessageType.text, { quoted: message });
+			break;
+		}
+
+		case ".sticker":
+		case ".stiker":
 		{
 			if (quotedMessage) {
 				message.message = quotedMessage;
@@ -155,7 +178,7 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			}
 
 			const imagePath = await conn.downloadAndSaveMediaMessage(message, Math.floor(Math.random() * 1000000));
-			const sticker = new WSF.Sticker("./" + imagePath, { crop: false, pack: "github.com/salismazaya", author: conn.user.name });
+			const sticker = new WSF.Sticker("./" + imagePath, { crop: false, pack: "github.com/Adiixyz", author: conn.user.name });
 			await sticker.build();
 			fs.unlinkSync(imagePath);
 			const bufferImage = await sticker.get();
@@ -163,7 +186,7 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			break;
 		}
 
-		case "!toimg":
+		case ".toimg":
 		{
 			if (!quotedMessage || !quotedMessage.stickerMessage || quotedMessage.stickerMessage.mimetype != "image/webp") {
 				conn.sendMessage(senderNumber, "Harus me-reply sticker :)", MessageType.text, { quoted: message });
@@ -177,8 +200,8 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			break;
 		}
 
-		case "!write":
-		case "!nulis":
+		case ".write":
+		case ".nulis":
 		{
 			if (!parameter) {
 				conn.sendMessage(senderNumber, "Tidak ada text :)", MessageType.text, { quoted: message });
@@ -200,7 +223,7 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			break;
 		}
 
-		case "!pdf":
+		case ".pdf":
 		{
 			if (message.participant) {
 				conn.sendMessage(senderNumber, "Fitur ini tidak bisa berjalan di grup :(", MessageType.text, { quoted: message });
@@ -219,7 +242,7 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			break;
 		}
 
-		case "!brainly":
+		case ".brainly":
 		{
 			if (!parameter) {
 				conn.sendMessage(senderNumber, "Inputnya salah kak :)", MessageType.text, { quoted: message });
@@ -239,7 +262,7 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			break;
 		}
 
-		case "!quotes":
+		case ".quotes":
 		{
 			const quotes = quotesList[Math.floor(Math.random() * quotesList.length)];
 			const text = `_"${quotes.quote}"_\n\n - ${quotes.by}`;
@@ -247,8 +270,8 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			break;
 		}
 
-		case "!randomfact":
-		case "!fact":
+		case ".randomfact":
+		case ".fact":
 		{
 			const fact = factList[Math.floor(Math.random() * factList.length)];
 			const text = `_${fact}_`
@@ -256,9 +279,9 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			break;
 		}
 
-		case "!gtts":
-		case "!tts":
-		case "!text2sound":
+		case ".gtts":
+		case ".tts":
+		case ".text2sound":
 		{
 			if (!parameter) {
 				conn.sendMessage(senderNumber, "Inputnya salah kak :)", MessageType.text, { quoted: message });
@@ -291,8 +314,8 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			break;
 		}
 
-		case "!wikipedia":
-		case "!wiki":
+		case ".wikipedia":
+		case ".wiki":
 		{
 			if (!parameter) {
 				conn.sendMessage(senderNumber, "Inputnya salah kak :)", MessageType.text, { quoted: message });
@@ -314,8 +337,8 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			break;
 		}
 
-		case "!textsticker":
-		case "!textstiker":
+		case ".textsticker":
+		case ".ttp":
 		{
 			if (!parameter) {
 				conn.sendMessage(senderNumber, "Inputnya salah kak :)", MessageType.text, { quoted: message });
@@ -323,14 +346,14 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			}
 
 			const response = await axios.post("https://salism3api.pythonanywhere.com/text2img", { "text":parameter.slice(0,60) });
-			const sticker = new WSF.Sticker(response.data.image, { crop: false, pack: "github.com/salismazaya", author: conn.user.name });
+			const sticker = new WSF.Sticker(response.data.image, { crop: false, pack: "github.com/ADIIXYZ", author: conn.user.name });
 			await sticker.build();
 			const bufferImage = await sticker.get();
 			conn.sendMessage(senderNumber, bufferImage, MessageType.sticker, { quoted: message });
 			break;
 		}
 
-		case "!ocr":
+		case ".ocr":
 		{
 			if (quotedMessage) {
 				message.message = quotedMessage;
@@ -348,7 +371,7 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			break;
 		}
 
-		case "!gifsticker":
+		case ".stickergif":
 		{
 			if (quotedMessage) {
 				message.message = quotedMessage;
@@ -365,7 +388,7 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			}
 
 			const imagePath = await conn.downloadAndSaveMediaMessage(message, Math.floor(Math.random() * 1000000));
-			const sticker = new WSF.Sticker("./" + imagePath, { animated: true, pack: "github.com/salismazaya", author: conn.user.name });
+			const sticker = new WSF.Sticker("./" + imagePath, { animated: true, pack: "github.com/Adiixyz", author: conn.user.name });
 			await sticker.build();
 			fs.unlinkSync(imagePath);
 			const bufferImage = await sticker.get();
@@ -373,7 +396,7 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 			break;
 		}
 
-		case "!giftextsticker":
+		case ".attp":
 		{
 			if (!parameter) {
 				conn.sendMessage(senderNumber, "Inputnya salah kak :)", MessageType.text, { quoted: message });
@@ -389,7 +412,7 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 		}
 
 
-		case "!math":
+		case ".math":
 		{
 			const response = await axios.get("https://salism3api.pythonanywhere.com/math/");
 			let image = await axios.get(response.data.image, { "responseType":"arraybuffer" });
@@ -417,7 +440,7 @@ apa? mau traktir aku? boleh banget https://saweria.co/salismazaya`.replace("(jik
 					conn.sendMessage(senderNumber, "Jawaban salah!", MessageType.text, { quoted: message })
 				}
 			} else if (!message.participant && !stickerMessage) {
-				conn.sendMessage(senderNumber, "Command tidak terdaftar, kirim *!help* untuk melihat command terdaftar", MessageType.text, { quoted: message });
+				conn.sendMessage(senderNumber, "Command tidak terdaftar, kirim *.menu* untuk melihat command terdaftar", MessageType.text, { quoted: message });
 			}
 		}
 
