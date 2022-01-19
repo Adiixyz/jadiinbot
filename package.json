@@ -9,7 +9,7 @@
   "author": "Salis Mazaya",
   "license": "ISC",
   "dependencies": {
-    "@adiwajshing/baileys": "3.4.1",
+    "@adiwajshing/baileys": "3.5.2",
     "axios": "^0.21.4",
     "body-parser": "^1.19.0",
     "brainly-scraper": "^1.0.3",
